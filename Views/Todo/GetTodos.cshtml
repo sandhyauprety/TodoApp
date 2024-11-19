@@ -1,0 +1,128 @@
+@model List<TodoDto>
+@{
+    ViewBag.Title = "Todo List";
+    Layout = "_Layout";
+}
+
+<h1 class="text-center my-5 text-primary">Todo List</h1>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center">
+        <strong>No todos available.</strong>
+    </div>
+}
+else
+{
+    <div class="todo-list">
+        @foreach (var item in Model)
+        {
+            <div class="todo-item">
+                <!-- Todo status with checkbox -->
+                <div class="todo-status">
+                    <input type="checkbox" @(item.Status ? "checked" : "") onchange="updateStatus(@item.Id, this)" />
+                    <label>@(item.Status ? "Completed" : "Mark as Complete")</label>
+                </div>
+
+                <!-- Todo details -->
+                <div class="todo-details">
+                    <h5 class="todo-title">@item.Title</h5>
+                    <p class="todo-date text-muted">@item.TaskDate.ToString("MM/dd/yyyy")</p>
+                    <p class="todo-description">@item.TitleDescription</p>
+                </div>
+                <a asp-controller="Todo" asp-action="Update" asp-route-id="@item.Id"><button>Update</button></a>
+                <a asp-controller="Todo" asp-action="Delete" asp-route-id="@item.Id"><button>delete</button></a>
+            </div>
+        }
+    </div>
+}
+
+
+
+<style>
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #007bff;
+    font-weight: 700;
+}
+
+/* Todo List Container */
+.todo-list {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Each Todo Item Styling */
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.todo-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Todo Status (Checkbox) */
+.todo-status {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: 20px;
+}
+
+.todo-status input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.todo-status label {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Todo Details */
+.todo-details {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.todo-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+}
+
+.todo-date {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 5px;
+}
+
+.todo-description {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 15px;
+}
+
+/* Alert Styling */
+.alert {
+    margin-top: 20px;
+    font-size: 1rem;
+}
+</style>

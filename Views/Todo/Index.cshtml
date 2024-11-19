@@ -1,0 +1,14 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model TodoVm
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Add Todo</h2>
+<form method="post">
+    Title: <input type="text" asp-for="Title" />
+    Description : <input type="text" asp-for="TitleDescription" />
+    <button type="submit">Submit</button>
+</form>
